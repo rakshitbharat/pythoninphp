@@ -1,22 +1,17 @@
 {
-  "name": "modules/machine",
-  "machine": "",
+  "name": "rakshitbharat/pythoninphp",
+  "description": "Run Python Scripts in PHP",
   "authors": [
     {
       "name": "Rakshit Patel",
-      "email": "rakshitafaz@gmail.com"
+      "email": "rakshitbharatproject@gmail.com"
     }
   ],
   "autoload": {
-    "psr-4": {
-      "Modules\\Machine\\": ""
-    }
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "Modules\\Machine\\Providers\\MachineServiceProvider"
-      ]
-    }
+    "files": [
+      "app/Support/helpers.php",
+      "app/Support/constants.php",
+      "app/Support/python.php"
+    ]
   }
 }
