@@ -1,0 +1,22 @@
+{
+  "name": "modules/machine",
+  "machine": "",
+  "authors": [
+    {
+      "name": "Rakshit Patel",
+      "email": "rakshitafaz@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Modules\\Machine\\": ""
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Modules\\Machine\\Providers\\MachineServiceProvider"
+      ]
+    }
+  }
+}
