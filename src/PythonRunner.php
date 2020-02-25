@@ -15,7 +15,12 @@ class PythonRunner
 
     public function run()
     {
-        $command = "python " . $this->file_path . " 2>&1";
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            $pythonPath = exec("where python");
+        } else {
+            $pythonPath = exec("which python");
+        }
+        $command = $pythonPath . " " . $this->file_path . " 2>&1";
         $pid = popen($command, "r");
         while (!feof($pid)) {
             $this->out_put .= fread($pid, 256);
