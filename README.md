@@ -5,7 +5,7 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/rakshitbharat/pythoninphp.svg?style=flat-square)](https://scrutinizer-ci.com/g/rakshitbharat/pythoninphp)
 [![Total Downloads](https://img.shields.io/packagist/dt/rakshitbharat/pythoninphp.svg?style=flat-square)](https://packagist.org/packages/rakshitbharat/pythoninphp)
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
+This package can give you helper functions to run python files right from PHP.
 
 ## Installation
 
@@ -18,13 +18,11 @@ composer require rakshitbharat/pythoninphp
 ## Usage
 
 ``` php
-// Usage description here
-```
+// Simply run python script in PHP by using 
+Rakshitbharat\Pythoninphp\RunRun::thisFile('File path from Laravel Root')
 
-### Testing
-
-``` bash
-composer test
+// For example
+Rakshitbharat\Pythoninphp\RunRun::thisFile('app/test.py')
 ```
 
 ### Changelog
@@ -47,7 +45,3 @@ If you discover any security related issues, please email rakshitbharatproject@g
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
-
-## PHP Package Boilerplate
-
-This package was generated using the [PHP Package Boilerplate](https://laravelpackageboilerplate.com).
