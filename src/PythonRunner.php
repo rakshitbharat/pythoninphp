@@ -1,10 +1,6 @@
 <?php
 
-
-namespace App\Python;
-
-
-use Illuminate\Support\Facades\File;
+namespace Rakshitbharat\Pythoninphp;
 
 class PythonRunner
 {
@@ -30,5 +26,4 @@ class PythonRunner
         pclose($pid);
         return $this->out_put;
     }
-
 }
