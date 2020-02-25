@@ -10,7 +10,7 @@ class PythonRunner
 
     public function pythonGrabber($pythonFilePathLaravelFormat)
     {
-        $this->file_path = base_path() . '/' . $pythonFilePathLaravelFormat;
+        $this->file_path = base_path() . DIRECTORY_SEPARATOR . $pythonFilePathLaravelFormat;
     }
 
     public function run()
