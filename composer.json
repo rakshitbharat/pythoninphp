@@ -1,17 +1,42 @@
 {
-  "name": "rakshitbharat/pythoninphp",
-  "description": "Run Python Scripts in PHP",
-  "authors": [
-    {
-      "name": "Rakshit Patel",
-      "email": "rakshitbharatproject@gmail.com"
+    "name": "rakshitbharat/pythoninphp",
+    "description": "This package can give you helper functions to run python files right from PHP.",
+    "keywords": [
+        "rakshitbharat",
+        "pythoninphp"
+    ],
+    "homepage": "https://github.com/rakshitbharat/pythoninphp",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Rakshit Patel",
+            "email": "rakshitbharatproject@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Rakshitbharat\\Pythoninphp\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Rakshitbharat\\Pythoninphp\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
     }
-  ],
-  "autoload": {
-    "files": [
-      "app/Support/helpers.php",
-      "app/Support/constants.php",
-      "app/Support/python.php"
-    ]
-  }
 }
