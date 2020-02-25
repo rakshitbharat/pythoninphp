@@ -1,4 +1,4 @@
-# Very short description of the package
+# Run Python Script from PHP
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/rakshitbharat/pythoninphp.svg?style=flat-square)](https://packagist.org/packages/rakshitbharat/pythoninphp)
 [![Build Status](https://img.shields.io/travis/rakshitbharat/pythoninphp/master.svg?style=flat-square)](https://travis-ci.org/rakshitbharat/pythoninphp)
