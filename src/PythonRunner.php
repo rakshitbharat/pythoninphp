@@ -56,6 +56,18 @@ class PythonRunner
      */
     protected function getDefaultExecutable(): string
     {
+        if (class_exists(\Symfony\Component\Process\ExecutableFinder::class)) {
+            $finder = new \Symfony\Component\Process\ExecutableFinder();
+            
+            $executable = $finder->find('python3') 
+                ?? $finder->find('python') 
+                ?? $finder->find('py');
+                
+            if ($executable !== null) {
+                return $executable;
+            }
+        }
+
         return (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? 'python' : 'python3';
     }
 
