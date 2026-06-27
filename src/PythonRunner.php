@@ -46,11 +46,10 @@ class PythonRunner
      */
     public function run(string $scriptPath, array $arguments = []): string
     {
-        if (function_exists('base_path')) {
+        $absolutePath = $scriptPath;
+
+        if (!$this->isAbsolutePath($scriptPath) && function_exists('base_path')) {
             $absolutePath = base_path($scriptPath);
-        } else {
-            // Fallback for non-Laravel usage
-            $absolutePath = $scriptPath;
         }
 
         if (! file_exists($absolutePath)) {
@@ -78,5 +77,24 @@ class PythonRunner
                 $e
             );
         }
+    }
+
+    /**
+     * Check if the given path is absolute.
+     *
+     * @param string $path
+     * @return bool
+     */
+    protected function isAbsolutePath(string $path): bool
+    {
+        if (strspn($path, '/\\', 0, 1)) {
+            return true;
+        }
+
+        if (strlen($path) > 3 && ctype_alpha($path[0]) && $path[1] === ':' && strspn($path, '/\\', 2, 1)) {
+            return true;
+        }
+
+        return false;
     }
 }
