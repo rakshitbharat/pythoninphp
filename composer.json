@@ -51,6 +51,11 @@
     },
     "config": {
         "sort-packages": true,
-        "policy.advisories.block": false
+        "policy.advisories.block": false,
+        "policy": {
+            "advisories": {
+                "block": false
+            }
+        }
     }
 }
