@@ -24,15 +24,78 @@ class PythonRunner
     protected $timeout;
 
     /**
+     * The working directory for the process.
+     *
+     * @var string|null
+     */
+    protected ?string $workingDirectory = null;
+
+    /**
+     * Additional environment variables for the process.
+     *
+     * @var array
+     */
+    protected array $env = [];
+
+    /**
      * Create a new PythonRunner instance.
      *
-     * @param string $executable
+     * @param string|null $executable
      * @param int|float|null $timeout
      */
-    public function __construct(string $executable = 'python3', $timeout = 60)
+    public function __construct(?string $executable = null, $timeout = 60)
     {
-        $this->executable = $executable;
+        $this->executable = $executable ?? $this->getDefaultExecutable();
         $this->timeout = $timeout;
+    }
+
+    /**
+     * Get the default Python executable based on the operating system.
+     *
+     * @return string
+     */
+    protected function getDefaultExecutable(): string
+    {
+        return (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? 'python' : 'python3';
+    }
+
+    /**
+     * Set a custom timeout for the process (fluent).
+     *
+     * @param int|float|null $timeout
+     * @return self
+     */
+    public function withTimeout($timeout): self
+    {
+        $clone = clone $this;
+        $clone->timeout = $timeout;
+        return $clone;
+    }
+
+    /**
+     * Set the working directory for the process (fluent).
+     *
+     * @param string $cwd
+     * @return self
+     */
+    public function withWorkingDirectory(string $cwd): self
+    {
+        $clone = clone $this;
+        $clone->workingDirectory = $cwd;
+        return $clone;
+    }
+
+    /**
+     * Set environment variables for the process (fluent).
+     *
+     * @param array $env
+     * @return self
+     */
+    public function withEnv(array $env): self
+    {
+        $clone = clone $this;
+        $clone->env = array_merge($this->env, $env);
+        return $clone;
     }
 
     /**
@@ -61,12 +124,32 @@ class PythonRunner
         $process = new Process($command);
         $process->setTimeout($this->timeout);
 
+        if ($this->workingDirectory !== null) {
+            $process->setWorkingDirectory($this->workingDirectory);
+        }
+
+        if (! empty($this->env)) {
+            $process->setEnv($this->env);
+        }
+
         try {
             $process->mustRun();
             return $process->getOutput();
         } catch (ProcessFailedException $e) {
+            $failedProcess = $e->getProcess();
+            $errorOutput = $failedProcess->getErrorOutput();
+            $output = $failedProcess->getOutput();
+
+            $message = "Python script execution failed with exit code {$failedProcess->getExitCode()}.\n";
+            if (! empty($errorOutput)) {
+                $message .= "Error Output:\n" . $errorOutput;
+            }
+            if (! empty($output)) {
+                $message .= "Standard Output:\n" . $output;
+            }
+
             throw new PythonExecutionException(
-                "Python script execution failed:\n" . $e->getProcess()->getErrorOutput(),
+                $message,
                 $e->getCode(),
                 $e
             );

@@ -11,7 +11,7 @@ return [
     | it here if your environment requires a specific path.
     |
     */
-    'executable' => env('PYTHON_EXECUTABLE', (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? 'python' : 'python3'),
+    'executable' => env('PYTHON_EXECUTABLE', null),
 
     /*
     |--------------------------------------------------------------------------
