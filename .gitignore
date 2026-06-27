@@ -1,0 +1,9 @@
+/vendor/
+/.phpunit.cache/
+/composer.lock
+.env
+.env.backup
+.phpunit.result.cache
+database.sqlite
+/docs/*.zip
+
