@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static string run(string $scriptPath, array $arguments = [])
+ * @method static \Rakshitbharat\Pythoninphp\PythonRunner withTimeout(int|float|null $timeout)
+ * @method static \Rakshitbharat\Pythoninphp\PythonRunner withWorkingDirectory(string $cwd)
+ * @method static \Rakshitbharat\Pythoninphp\PythonRunner withEnv(array $env)
  *
  * @see \Rakshitbharat\Pythoninphp\PythonRunner
  */
