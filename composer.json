@@ -1,9 +1,11 @@
 {
     "name": "rakshitbharat/pythoninphp",
-    "description": "This package can give you helper functions to run python files right from PHP.",
+    "description": "Execute Python scripts seamlessly from your Laravel PHP applications.",
     "keywords": [
-        "rakshitbharat",
-        "pythoninphp"
+        "laravel",
+        "php",
+        "python",
+        "process"
     ],
     "homepage": "https://github.com/rakshitbharat/pythoninphp",
     "license": "MIT",
@@ -15,19 +17,37 @@
             "role": "Developer"
         }
     ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^10.0 || ^11.0",
+        "symfony/process": "^6.0 || ^7.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0 || ^9.0",
+        "phpunit/phpunit": "^10.0 || ^11.0"
+    },
     "autoload": {
         "psr-4": {
-            "Rakshitbharat\\Pythoninphp\\": "src"
+            "Rakshitbharat\\Pythoninphp\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Rakshitbharat\\Pythoninphp\\Tests\\": "tests"
+            "Rakshitbharat\\Pythoninphp\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Rakshitbharat\\Pythoninphp\\PythonServiceProvider"
+            ],
+            "aliases": {
+                "Python": "Rakshitbharat\\Pythoninphp\\Facades\\Python"
+            }
         }
     },
     "scripts": {
-        "test": "vendor/bin/phpunit",
-        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+        "test": "vendor/bin/phpunit"
     },
     "config": {
         "sort-packages": true

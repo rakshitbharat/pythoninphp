@@ -2,33 +2,81 @@
 
 namespace Rakshitbharat\Pythoninphp;
 
+use Rakshitbharat\Pythoninphp\Exceptions\PythonExecutionException;
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Exception\ProcessTimedOutException;
+
 class PythonRunner
 {
-    public $file_path = '';
+    /**
+     * The path to the Python executable.
+     *
+     * @var string
+     */
+    protected string $executable;
 
-    public $out_put = '';
+    /**
+     * The default timeout in seconds.
+     *
+     * @var int|float|null
+     */
+    protected $timeout;
 
-    public function pythonGrabber($pythonFilePathLaravelFormat)
+    /**
+     * Create a new PythonRunner instance.
+     *
+     * @param string $executable
+     * @param int|float|null $timeout
+     */
+    public function __construct(string $executable = 'python3', $timeout = 60)
     {
-        $this->file_path = base_path() . DIRECTORY_SEPARATOR . $pythonFilePathLaravelFormat;
+        $this->executable = $executable;
+        $this->timeout = $timeout;
     }
 
-    public function run()
+    /**
+     * Execute a Python script.
+     *
+     * @param string $scriptPath The relative path from the application base path.
+     * @param array $arguments Additional arguments to pass to the script.
+     * @return string The output from the script.
+     *
+     * @throws \Rakshitbharat\Pythoninphp\Exceptions\PythonExecutionException
+     */
+    public function run(string $scriptPath, array $arguments = []): string
     {
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            $pythonPath = exec("where python");
+        if (function_exists('base_path')) {
+            $absolutePath = base_path($scriptPath);
         } else {
-            $pythonPath = exec("which python");
+            // Fallback for non-Laravel usage
+            $absolutePath = $scriptPath;
         }
-        $command = $pythonPath . " " . $this->file_path . " 2>&1";
-        $pid = popen($command, "r");
-        while (!feof($pid)) {
-            $this->out_put .= fread($pid, 256);
-            flush();
-            ob_flush();
-            usleep(100000);
+
+        if (! file_exists($absolutePath)) {
+            throw new PythonExecutionException("Python script not found at path: {$absolutePath}");
         }
-        pclose($pid);
-        return $this->out_put;
+
+        $command = array_merge([$this->executable, $absolutePath], $arguments);
+
+        $process = new Process($command);
+        $process->setTimeout($this->timeout);
+
+        try {
+            $process->mustRun();
+            return $process->getOutput();
+        } catch (ProcessFailedException $e) {
+            throw new PythonExecutionException(
+                "Python script execution failed:\n" . $e->getProcess()->getErrorOutput(),
+                $e->getCode(),
+                $e
+            );
+        } catch (ProcessTimedOutException $e) {
+            throw new PythonExecutionException(
+                "Python script execution timed out after {$this->timeout} seconds.",
+                $e->getCode(),
+                $e
+            );
+        }
     }
 }
